@@ -20,7 +20,7 @@ const isInFav = computed(() => store.favorite.some((unit) => product?._id === un
         <div class="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
             <div class="flex flex-wrap -mx-4 items-center">
                 <div class="w-full px-4 md:w-1/2 ">
-                    <div class="sticky top-0 z-50 overflow-hidden ">
+                    <div class="sticky top-0 z-10 overflow-hidden ">
                         <div class="relative mb-6 lg:mb-10 lg:h-2/4 ">
                             <img :src="apiUrl + '/' + product?.image" :alt="product?.title"
                                 class="object-cover w-full lg:h-full ">
