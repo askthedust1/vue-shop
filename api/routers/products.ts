@@ -3,8 +3,6 @@ import { IProduct } from '../type';
 import { imagesUpload } from '../multer';
 import Product from '../models/Product';
 const productsRouter = express.Router();
-import fs from 'fs';
-import config from '../config';
 import mongoose from 'mongoose';
 import auth from '../middleware/auth';
 import permit from '../middleware/permit';
@@ -21,7 +19,10 @@ productsRouter.get('/', async (req, res) => {
 
 productsRouter.get('/:id', async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate(
+      "category",
+      "title"
+    );
 
     if (!product) {
       return res.sendStatus(404);
@@ -61,27 +62,5 @@ productsRouter.post(
     }
   },
 );
-
-productsRouter.delete('/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const product = await Product.findById(id);
-
-    if (!product) {
-      return res.status(404).send('Not Found!');
-    }
-
-    await Product.findByIdAndRemove(id);
-
-    if (product.image) {
-      const filePath = config.publicPath + '/' + product.image;
-      fs.unlinkSync(filePath);
-    }
-
-    res.send('Deleted');
-  } catch (e) {
-    res.status(500).send('error');
-  }
-});
 
 export default productsRouter;

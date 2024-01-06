@@ -7,10 +7,9 @@ export interface IProduct {
 }
 
 export interface IUser {
-  username: string;
+  email: string;
   password: string;
   token: string;
   role: string;
   displayName?: string;
-  googleId?: string;
 }

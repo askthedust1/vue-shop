@@ -13,18 +13,18 @@ interface IUserMethods {
 type UserModel = Model<IUser, Record<string, unknown>, IUserMethods>;
 
 const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
-  username: {
+  email: {
     type: String,
     required: true,
     unique: true,
     validate: {
-      validator: async function (this: HydratedDocument<IUser>, username: string) {
-        if (!this.isModified('username')) return true;
-        const user = await User.findOne({ username });
+      validator: async function (this: HydratedDocument<IUser>, email: string) {
+        if (!this.isModified("email")) return true;
+        const user = await User.findOne({ email });
 
         if (user) return false;
       },
-      message: 'This user is already registered',
+      message: "This user is already registered",
     },
   },
   password: {
@@ -34,15 +34,14 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>({
   role: {
     type: String,
     required: true,
-    default: 'user',
-    enum: ['user', 'admin'],
+    default: "user",
+    enum: ["user", "admin"],
   },
   token: {
     type: String,
     required: true,
   },
   displayName: String,
-  googleId: String,
 });
 
 UserSchema.pre('save', async function (next) {
